@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Shuyi Wang">
+  <title>Classification with Deep Transfer Learning</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="reveal.js/css/reset.css">
+  <link rel="stylesheet" href="reveal.js/css/reveal.css">
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="reveal.js/css/theme/league.css" id="theme">
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Classification with Deep Transfer Learning</h1>
+  <p class="author">Shuyi Wang</p>
+  <p class="date">Jul 2019</p>
+</section>
+
+<section><section id="content" class="title-slide slide level1"><h1>Content</h1></section><section id="ontline" class="slide level2">
+<h2>Ontline</h2>
+<ul>
+<li class="fragment">Classification</li>
+<li class="fragment">Machine Learning for Classification</li>
+<li class="fragment">Deep Learning for Classification</li>
+<li class="fragment">Deep Transfer Learning for Classification</li>
+<li class="fragment">Hands on: Text Classification with ULMfit &amp; BERT</li>
+<li class="fragment">Q&amp;A</li>
+</ul>
+</section></section>
+<section><section id="classification" class="title-slide slide level1"><h1>Classification</h1></section><section id="definition" class="slide level2">
+<h2>Definition</h2>
+<ul>
+<li class="fragment">Jacob, E. K. (2004). Classification and categorization: a difference that makes a difference.</li>
+<li class="fragment">Classification as process involves the orderly and systematic assignment of each entity to <strong>one and only one</strong> class within a system of <strong>mutually exclusive</strong> and <strong>non overlapping</strong> classes.</li>
+</ul>
+</section><section id="applications" class="slide level2">
+<h2>Applications</h2>
+</section><section id="section" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-15-21-31-309972.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-1" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-15-22-02-355046.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-2" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-15-22-07-025372.jpg" data-background-size="contain">
+<h2></h2>
+</section><section id="approaches" class="slide level2">
+<h2>Approaches</h2>
+<ul>
+<li class="fragment">human</li>
+<li class="fragment">machine</li>
+</ul>
+</section><section id="human" class="slide level2">
+<h2>human</h2>
+<ul>
+<li class="fragment">labor intensive</li>
+<li class="fragment">cannot handle big data</li>
+</ul>
+</section><section id="machine" class="slide level2">
+<h2>machine</h2>
+<ul>
+<li class="fragment">rule-based system</li>
+<li class="fragment">machine Learning</li>
+</ul>
+</section><section id="rule-based-system" class="slide level2">
+<h2>rule based system</h2>
+<ul>
+<li class="fragment">problem
+<ul>
+<li class="fragment">machines are dumb</li>
+</ul></li>
+<li class="fragment">human needs give them clear rules
+<ul>
+<li class="fragment">expert system</li>
+</ul></li>
+</ul>
+</section><section id="sometime-doesnt-work" class="slide level2">
+<h2>Sometime doesn’t work</h2>
+<ul>
+<li class="fragment">if rule is not clear</li>
+<li class="fragment">or simply wrong</li>
+</ul>
+</section><section id="example-of-failure" class="slide level2">
+<h2>example of failure</h2>
+<ul>
+<li class="fragment">Plato was applauded for his definition of man as a featherless biped</li>
+<li class="fragment">Diogenes the Cynic “plucked the feathers from a cock, brought it to Plato’s school, and said, ‘Here is Plato’s man.’”</li>
+</ul>
+</section><section id="section-3" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2018-12-06-17-34-38-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="what-if" class="slide level2">
+<h2>What if</h2>
+<ul>
+<li class="fragment">we cannot describe the rules</li>
+<li class="fragment">let machine learn from data</li>
+<li class="fragment">machine learning</li>
+</ul>
+</section></section>
+<section><section id="machine-learning-for-classification" class="title-slide slide level1"><h1>Machine Learning for Classification</h1></section><section id="machine-learning" class="slide level2">
+<h2>Machine learning</h2>
+<ul>
+<li class="fragment">Definition:</li>
+<li class="fragment">Machine learning (ML) is the study of algorithms and mathematical models that computer systems use to progressively improve their performance on a specific task. (Wikipedia)</li>
+</ul>
+</section><section id="illustration" class="slide level2">
+<h2>Illustration</h2>
+</section><section id="section-4" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2018-12-06-17-14-39-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="different-types" class="slide level2">
+<h2>Different types</h2>
+<ul>
+<li class="fragment">Supervised</li>
+<li class="fragment">Unsupervised</li>
+<li class="fragment">Reinforcement</li>
+</ul>
+</section><section id="supervised" class="slide level2">
+<h2>Supervised</h2>
+<ul>
+<li class="fragment">Labels need to be provided</li>
+<li class="fragment">eg: classification</li>
+</ul>
+</section><section id="unsupervised" class="slide level2">
+<h2>Unsupervised</h2>
+<ul>
+<li class="fragment">No Label needed</li>
+<li class="fragment">eg: clustering</li>
+</ul>
+</section><section id="comparison-between-them" class="slide level2">
+<h2>Comparison between them</h2>
+</section><section id="section-5" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-04-02-10-03-54-121066.png" data-background-size="contain">
+<h2></h2>
+</section><section id="exercise-on-clustering" class="slide level2">
+<h2>exercise on clustering</h2>
+<ul>
+<li class="fragment">How to cluster / group the following animals?</li>
+<li class="fragment">chicken, goldfish, goose, duck</li>
+</ul>
+</section><section id="answer-for-clustering" class="slide level2">
+<h2>Answer for Clustering</h2>
+<ul>
+<li class="fragment">{chicken, goose, duck} {goldfish}</li>
+<li class="fragment">{chicken}, {goldfish, goose, duck}</li>
+</ul>
+</section><section id="exercise-on-classifciation" class="slide level2">
+<h2>exercise on classifciation</h2>
+<ul>
+<li class="fragment">How to classify the following animals?</li>
+<li class="fragment">chicken, goldfish, goose, duck</li>
+</ul>
+</section><section id="answer-for-classification" class="slide level2">
+<h2>Answer for classification</h2>
+<ul>
+<li class="fragment">You cannot do it</li>
+<li class="fragment">No label provided!</li>
+</ul>
+</section><section id="section-6" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2018-12-06-17-14-39-000000-1.png" data-background-size="contain">
+<h2></h2>
+</section><section id="classification-with-machine-learning" class="slide level2">
+<h2>Classification with Machine Learning</h2>
+<ul>
+<li class="fragment">Decision Tree</li>
+<li class="fragment">Logistic Regression</li>
+<li class="fragment">SVM</li>
+<li class="fragment">Random Forest</li>
+</ul>
+</section><section id="decision-tree" class="slide level2">
+<h2>Decision Tree</h2>
+<ul>
+<li class="fragment">Example: Titanic</li>
+</ul>
+</section><section id="section-7" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2018-12-06-20-05-14-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="data-of-titanic-passengers" class="slide level2">
+<h2>Data of Titanic Passengers</h2>
+</section><section id="section-8" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2018-12-06-20-05-21-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="the-trained-tree" class="slide level2">
+<h2>The trained tree</h2>
+<ul>
+<li class="fragment"><img src="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-04-02-10-05-17-601607.png" style="border-style: none" alt=""></li>
+<li class="fragment">Source: <a href="https://goo.gl/YyagUZ">https://goo.gl/YyagUZ</a></li>
+</ul>
+</section><section id="decision-tree-in-scikit-learn" class="slide level2">
+<h2>Decision Tree in Scikit-learn</h2>
+<pre><code>from sklearn.datasets import load_iris
+from sklearn import tree
+iris = load_iris()
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(iris.data, iris.target)</code></pre>
+<ul>
+<li class="fragment">Source: <a href="https://goo.gl/dhQpTP">https://goo.gl/dhQpTP</a></li>
+</ul>
+</section><section id="logistic-regression" class="slide level2">
+<h2>Logistic Regression</h2>
+<ul>
+<li class="fragment"><img src="https://github.com/wshuyi/github_pub_img/raw/master/assets/2018-12-05-20-06-44-000000.png" style="border-style: none" alt=""></li>
+<li class="fragment">Source: <a href="https://goo.gl/GXzumH">https://goo.gl/GXzumH</a></li>
+</ul>
+</section><section id="how-it-works" class="slide level2">
+<h2>How it works</h2>
+</section><section id="section-9" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2018-12-06-20-17-54-000000.gif" data-background-size="contain">
+<h2></h2>
+</section><section id="logistic-regression-in-scikit-learn" class="slide level2">
+<h2>Logistic Regression in Scikit-learn</h2>
+<pre><code>from sklearn.datasets import load_iris
+from sklearn.linear_model import LogisticRegression
+X, y = load_iris(return_X_y=True)
+clf = LogisticRegression(random_state=0, solver=&#39;lbfgs&#39;, multi_class=&#39;multinomial&#39;).fit(X, y)</code></pre>
+<ul>
+<li class="fragment">Source: <a href="https://goo.gl/447efU">https://goo.gl/447efU</a></li>
+</ul>
+</section><section id="problems-of-classical-machine-learning" class="slide level2">
+<h2>Problems of classical machine learning</h2>
+<ul>
+<li class="fragment">Can not handle complex task
+<ul>
+<li class="fragment">hard to get features</li>
+<li class="fragment">non-linear separable</li>
+</ul></li>
+</ul>
+</section><section id="hard-to-get-features" class="slide level2">
+<h2>hard to get features</h2>
+</section><section id="section-10" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2018-12-06-20-05-21-000000-1.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-11" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2018-12-06-20-29-36-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="feature-engineering" class="slide level2">
+<h2>Feature Engineering</h2>
+</section><section id="section-12" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2018-12-06-20-23-03-000000.gif" data-background-size="contain">
+<h2></h2>
+</section><section id="out-of-date" class="slide level2">
+<h2>out-of-date</h2>
+</section><section id="section-13" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2018-12-06-20-23-30-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="example" class="slide level2">
+<h2>Example</h2>
+<ul>
+<li class="fragment">Please hand-craft feature for the following image of a panda:</li>
+<li class="fragment"><img src="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-04-02-10-06-25-101889.png" style="border-style: none" alt=""></li>
+</ul>
+</section><section id="test-if-it-works" class="slide level2">
+<h2>Test if it works</h2>
+<ul>
+<li class="fragment">Try on the following images</li>
+</ul>
+</section><section id="section-14" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-04-02-10-06-43-675807.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-15" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-04-02-10-06-52-531740.png" data-background-size="contain">
+<h2></h2>
+</section><section id="non-linear-separable" class="slide level2">
+<h2>non-linear separable</h2>
+</section><section id="section-16" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2018-12-06-20-27-09-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-17" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2018-12-06-20-27-22-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-18" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2018-12-06-21-46-07-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="complex-problems" class="slide level2">
+<h2>Complex Problems</h2>
+</section><section id="section-19" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-10-59-14-132464.jpg" data-background-size="contain">
+<h2></h2>
+</section><section id="tensorflow-playground" class="slide level2">
+<h2>Tensorflow Playground</h2>
+</section><section id="section-20" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-09-19-43-314899.png" data-background-size="contain">
+<h2></h2>
+</section><section id="logistic-regression-1" class="slide level2">
+<h2>Logistic regression</h2>
+<ul>
+<li class="fragment">a short video</li>
+</ul>
+</section><section id="section-21" class="slide level2">
+<h2></h2>
+<video class="stretch" src="https://github.com/wshuyi/github_pub_img/raw/master/assets/logistic-regression-playground.mp4" data-autoplay controls>
+</video>
+</section><section id="complex-problem" class="slide level2">
+<h2>complex problem</h2>
+</section><section id="section-22" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-09-20-47-294198.png" data-background-size="contain">
+<h2></h2>
+</section><section id="still-logistic-regression" class="slide level2">
+<h2>Still Logistic regression</h2>
+<ul>
+<li class="fragment">a short video</li>
+</ul>
+</section><section id="section-23" class="slide level2">
+<h2></h2>
+<video class="stretch" src="https://github.com/wshuyi/github_pub_img/raw/master/assets/logistic-regression-complex-playground.mp4" data-autoplay controls>
+</video>
+</section><section id="change-to-neural-networks" class="slide level2">
+<h2>Change to Neural Networks</h2>
+</section><section id="section-24" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-11-03-08-820494.png" data-background-size="contain">
+<h2></h2>
+</section><section id="shallow-neural-networks" class="slide level2">
+<h2>shallow neural networks</h2>
+<ul>
+<li class="fragment">a short video</li>
+</ul>
+</section><section id="section-25" class="slide level2">
+<h2></h2>
+<video class="stretch" src="https://github.com/wshuyi/github_pub_img/raw/master/assets/no-so-complex.mp4" data-autoplay controls>
+</video>
+</section><section id="deep-neural-network" class="slide level2">
+<h2>Deep Neural Network</h2>
+<ul>
+<li class="fragment">Definition</li>
+<li class="fragment">more than 2 hidden layers</li>
+<li class="fragment">“Deep (Neural Network for Machine) Learning”</li>
+</ul>
+</section><section id="section-26" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-11-06-30-168055.png" data-background-size="contain">
+<h2></h2>
+</section><section id="effect-of-deep-learning" class="slide level2">
+<h2>Effect of Deep Learning</h2>
+<ul>
+<li class="fragment">a short video</li>
+</ul>
+</section><section id="section-27" class="slide level2">
+<h2></h2>
+<video class="stretch" src="https://github.com/wshuyi/github_pub_img/raw/master/assets/complex-structure-for-complex-problem.mp4" data-autoplay controls>
+</video>
+</section><section id="let-us-play" class="slide level2">
+<h2>Let us play</h2>
+<ul>
+<li class="fragment">Tensorflow Playground</li>
+<li class="fragment">https://playground.tensorflow.org</li>
+</ul>
+</section></section>
+<section><section id="deep-learning-for-classification" class="title-slide slide level1"><h1>Deep Learning for Classification</h1></section><section id="definition-1" class="slide level2">
+<h2>definition</h2>
+<ul>
+<li class="fragment">Deep learning (also known as deep structured learning or hierarchical learning) is part of a broader family of machine learning methods based on learning data representations, as opposed to task-specific algorithms.</li>
+</ul>
+</section><section id="trend-of-deep-learning" class="slide level2">
+<h2>Trend of Deep Learning</h2>
+</section><section id="section-28" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-15-29-46-290964.png" data-background-size="contain">
+<h2></h2>
+</section><section id="important-things" class="slide level2">
+<h2>Important Things</h2>
+<ul>
+<li class="fragment">Data</li>
+<li class="fragment">Structure</li>
+<li class="fragment">Loss</li>
+</ul>
+</section><section id="data" class="slide level2">
+<h2>Data</h2>
+<ul>
+<li class="fragment">Tabular</li>
+<li class="fragment">Image</li>
+<li class="fragment">Sequencial (e.g., text)</li>
+</ul>
+</section><section id="big-data" class="slide level2">
+<h2>Big Data</h2>
+<ul>
+<li class="fragment">no need for huge rule-based program coding</li>
+<li class="fragment">a lot of data</li>
+</ul>
+</section><section id="section-29" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-11-03-25-744002.png" data-background-size="contain">
+<h2></h2>
+</section><section id="structure" class="slide level2">
+<h2>Structure</h2>
+<ul>
+<li class="fragment">Dense Neural Network</li>
+<li class="fragment">Convolutional Neural Network</li>
+<li class="fragment">Recurrent Neural Network</li>
+<li class="fragment">Combination of them</li>
+</ul>
+</section><section id="convolutional-neural-network" class="slide level2">
+<h2>Convolutional Neural Network</h2>
+<ul>
+<li class="fragment">Computer Vision</li>
+</ul>
+</section><section id="section-30" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-10-16-31-818819.png" data-background-size="contain">
+<h2></h2>
+</section><section id="image-classification" class="slide level2">
+<h2>Image Classification</h2>
+<ul>
+<li class="fragment">End to end learning</li>
+<li class="fragment">No feature engineering needed</li>
+<li class="fragment">very complex structure</li>
+</ul>
+</section><section id="section-31" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2018-12-05-19-44-22-000000.gif" data-background-size="contain">
+<h2></h2>
+</section><section id="section-32" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-15-34-40-745337.gif" data-background-size="contain">
+<h2></h2>
+</section><section id="text-classification" class="slide level2">
+<h2>Text Classification</h2>
+<ul>
+<li class="fragment">Sequence as Input</li>
+<li class="fragment">Judging from the current input and the state changed by previous inputs</li>
+<li class="fragment">Recurrent Neural Network</li>
+</ul>
+</section><section id="section-33" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-04-02-10-11-15-340869.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-34" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2018-12-05-19-44-22-000000-1.gif" data-background-size="contain">
+<h2></h2>
+</section><section id="recurrent-neural-network" class="slide level2">
+<h2>Recurrent Neural Network</h2>
+<ul>
+<li class="fragment">Sequence Data</li>
+<li class="fragment">In some cases, sequence matters</li>
+</ul>
+</section><section id="section-35" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-16-05-51-858208.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-36" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-10-42-50-574117.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-37" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-16-05-52-253709.gif" data-background-size="contain">
+<h2></h2>
+</section><section id="section-38" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-10-42-50-864753.png" data-background-size="contain">
+<h2></h2>
+</section><section id="loss" class="slide level2">
+<h2>Loss</h2>
+<ul>
+<li class="fragment">Measure how wrong your prediction is</li>
+<li class="fragment">Improve in next iteration</li>
+</ul>
+</section><section id="section-39" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-16-05-52-546862.jpg" data-background-size="contain">
+<h2></h2>
+</section><section id="problem-of-deep-learning" class="slide level2">
+<h2>Problem of Deep Learning</h2>
+<ul>
+<li class="fragment">Require a lot of data</li>
+<li class="fragment">Easy to suffer from <strong>Overfitting</strong>
+<ul>
+<li class="fragment">memorize the results, instead of learn the rules</li>
+</ul></li>
+<li class="fragment">A lot of computing power needed (GPU/TPU)</li>
+<li class="fragment">Time consuming</li>
+</ul>
+</section><section id="gpu" class="slide level2">
+<h2>GPU</h2>
+<ul>
+<li class="fragment">Expensive</li>
+<li class="fragment"><img src="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-25-16-50-18-399055.png" style="border-style: none" alt=""></li>
+</ul>
+</section><section id="example-1" class="slide level2">
+<h2>Example</h2>
+<ul>
+<li class="fragment">BERT (Bidirectional Encoder Representations from Transformers)
+<ul>
+<li class="fragment">State of the art of Language Modeling</li>
+<li class="fragment">4 TPU pods (<strong>256 TPU</strong> chips) in 4 days!</li>
+</ul></li>
+<li class="fragment">XLNET (beats BERT in several tasks)
+<ul>
+<li class="fragment">Cost?</li>
+</ul></li>
+</ul>
+</section><section id="section-40" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-25-16-54-34-499613.png" data-background-size="contain">
+<h2></h2>
+</section></section>
+<section><section id="deep-transfer-learning-for-classification" class="title-slide slide level1"><h1>Deep Transfer Learning for Classification</h1></section><section id="transfer" class="slide level2">
+<h2>Transfer</h2>
+<ul>
+<li class="fragment">People who has got plenty of computing power train a model from scrach</li>
+<li class="fragment">release the model to public</li>
+<li class="fragment">Others can borrow the model</li>
+<li class="fragment">chop off several layers (near the output), replace with their own ones</li>
+<li class="fragment">Train the new model on their tasks</li>
+<li class="fragment">with small amount of data</li>
+</ul>
+</section><section id="example-of-text-classification" class="slide level2">
+<h2>Example of Text Classification</h2>
+<ul>
+<li class="fragment">Can we do transfer learning on text classification?</li>
+<li class="fragment">Yes</li>
+</ul>
+</section><section id="language-models" class="slide level2">
+<h2>language models</h2>
+</section><section id="section-41" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2018-12-06-20-40-11-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="pretrained-model-we-borrow" class="slide level2">
+<h2>pretrained model we borrow</h2>
+<ul>
+<li class="fragment">WikiText-103 (WT103)</li>
+</ul>
+</section><section id="experiment" class="slide level2">
+<h2>Experiment</h2>
+<ul>
+<li class="fragment">task
+<ul>
+<li class="fragment">sentiment analysis</li>
+</ul></li>
+<li class="fragment">data
+<ul>
+<li class="fragment">Yelp reviews Polarity</li>
+</ul></li>
+</ul>
+</section><section id="section-42" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-04-02-10-14-43-071387.png" data-background-size="contain">
+<h2></h2>
+</section><section id="state-of-the-art" class="slide level2">
+<h2>State of the Art</h2>
+<ul>
+<li class="fragment"><img src="https://github.com/wshuyi/github_pub_img/raw/master/assets/2018-12-05-19-44-22-000000-6.png" style="border-style: none" alt=""></li>
+<li class="fragment">Source: Shen, D., Wang, G., Wang, W., Min, M. R., Su, Q., Zhang, Y., … &amp; Carin, L. (2018). Baseline needs more love: On simple word-embedding-based models and associated pooling mechanisms. arXiv preprint arXiv:1805.09843.</li>
+</ul>
+</section><section id="result" class="slide level2">
+<h2>Result</h2>
+</section><section id="section-43" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2018-12-05-19-44-22-000000-8.jpeg" data-background-size="contain">
+<h2></h2>
+</section></section>
+<section><section id="qa" class="title-slide slide level1"><h1>Q&amp;A</h1></section><section id="questions" class="slide level2">
+<h2>Questions?</h2>
+</section><section id="the-end" class="slide level2">
+<h2>The End</h2>
+<p>Thanks for your time!</p>
+</section></section>
+    </div>
+  </div>
+
+  <script src="reveal.js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+
+navigationMode: 'linear', 
+
+        // Push each slide change to the browser history
+        history: true,
+        // Transition style
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+          { src: 'reveal.js/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+    </body>
+</html>
