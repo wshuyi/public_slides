@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Shuyi Wang">
+  <title>On Smart Traffic</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="reveal.js/css/reset.css">
+  <link rel="stylesheet" href="reveal.js/css/reveal.css">
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="reveal.js/css/theme/league.css" id="theme">
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">On Smart Traffic</h1>
+  <p class="author">Shuyi Wang</p>
+  <p class="date">Jul 2019</p>
+</section>
+
+<section><section id="intro" class="title-slide slide level1"><h1>Intro</h1></section><section id="task" class="slide level2">
+<h2>Task</h2>
+<ul>
+<li class="fragment">Predict Severe Traffic with waze data</li>
+</ul>
+</section><section id="result-last-time" class="slide level2">
+<h2>Result last time</h2>
+</section><section id="section" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-03-02-17-11-43-811778.png" data-background-size="contain">
+<h2></h2>
+</section><section id="member" class="slide level2">
+<h2>Member</h2>
+<p>Shuyi Wang, Latunde Olokodana, Ishaan Javali, Haihua Chen, Jiyuan Li</p>
+</section><section id="new-data" class="slide level2">
+<h2>New Data</h2>
+<ul>
+<li class="fragment">3 months waze, Nov 2018, Dec 2018, Jan 2019</li>
+</ul>
+</section></section>
+<section><section id="first-try" class="title-slide slide level1"><h1>First Try</h1></section><section id="all-the-same-condition" class="slide level2">
+<h2>All the same condition</h2>
+<ul>
+<li class="fragment">More than 3000 severe jams</li>
+</ul>
+</section><section id="section-1" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-03-02-17-14-10-151044.png" data-background-size="contain">
+<h2></h2>
+</section><section id="great" class="slide level2">
+<h2>Great!</h2>
+<ul>
+<li class="fragment">But wait</li>
+<li class="fragment">direction missing</li>
+<li class="fragment">a falicity can be hundreds of miles long</li>
+<li class="fragment">severe jams can be in leading sequences</li>
+<li class="fragment">lots of leading sequences are empty ones</li>
+</ul>
+</section></section>
+<section><section id="second-try" class="title-slide slide level1"><h1>second try</h1></section><section id="what-we-did" class="slide level2">
+<h2>What we did</h2>
+<ul>
+<li class="fragment">lon, lat to make sure talking about the same area</li>
+<li class="fragment">remove all the leading events containing severe jams</li>
+<li class="fragment">remove all the empty leading sequences</li>
+</ul>
+</section><section id="result" class="slide level2">
+<h2>Result</h2>
+</section><section id="section-2" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-03-02-17-17-31-771885.png" data-background-size="contain">
+<h2></h2>
+</section><section id="disucssion" class="slide level2">
+<h2>Disucssion</h2>
+<ul>
+<li class="fragment">Not so good</li>
+<li class="fragment">Because data is less</li>
+<li class="fragment">not good for deep learning</li>
+<li class="fragment">more data</li>
+</ul>
+</section><section id="learned" class="slide level2">
+<h2>Learned</h2>
+<ul>
+<li class="fragment">a lot about geo location calculation</li>
+<li class="fragment">pandas tricks</li>
+</ul>
+</section><section id="the-end" class="slide level2">
+<h2>The End</h2>
+<p>Thanks for your time!</p>
+</section></section>
+    </div>
+  </div>
+
+  <script src="reveal.js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+
+navigationMode: 'linear', 
+
+        // Push each slide change to the browser history
+        history: true,
+        // Transition style
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+          { src: 'reveal.js/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+    </body>
+</html>
