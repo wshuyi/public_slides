@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Shuyi Wang">
+  <title>Traffic Event Prediction with Deep Learning</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="reveal.js/css/reset.css">
+  <link rel="stylesheet" href="reveal.js/css/reveal.css">
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="reveal.js/css/theme/league.css" id="theme">
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Traffic Event Prediction with Deep Learning</h1>
+  <p class="author">Shuyi Wang</p>
+  <p class="date">Jan 2019</p>
+</section>
+
+<section><section id="outline" class="title-slide slide level1"><h1>Outline</h1></section><section id="sections" class="slide level2">
+<h2>Sections</h2>
+<ul>
+<li class="fragment">Self Introduction</li>
+<li class="fragment">Artificial Intelligence &amp; Machine Learning</li>
+<li class="fragment">Severe Traffic Jam Prediction with Sequence Model</li>
+<li class="fragment">Potential Applications</li>
+</ul>
+</section></section>
+<section><section id="self-introduction" class="title-slide slide level1"><h1>Self-introduction</h1></section><section id="our-team" class="slide level2">
+<h2>Our team</h2>
+<ul>
+<li class="fragment">(Habib’s part)</li>
+</ul>
+</section><section id="about-me" class="slide level2">
+<h2>about me</h2>
+<ul>
+<li class="fragment">Associate Professor in Tianjin Normal University, Tianjin, China</li>
+<li class="fragment">Visiting Scholar at IIA (Intelligent Information Access) lab, department of information science, UNT</li>
+<li class="fragment">Adjunct Faculty, course INFO 5731, “Computational Methods for Information Systems”.</li>
+<li class="fragment">First Prize Winner of HackNTX 2018</li>
+</ul>
+</section><section id="section" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-09-01-36-700550.png" data-background-size="contain">
+<h2></h2>
+</section><section id="academic-profile" class="slide level2">
+<h2>Academic Profile</h2>
+<ul>
+<li class="fragment">Principal Investigator of National Social Science Foundation of China “Research on Social Media User Privacy Protection with Dynamic Revealing of Information Prices” (Grant No. 15CTQ017, On-going project)</li>
+<li class="fragment">Member of Association for Information Science and Technology, ASIS&amp;T</li>
+<li class="fragment">Reviewer of Journal “Expert Systems with Applications” and “The Electronic Library”</li>
+<li class="fragment">PC member of COMPSAC SETA 2019</li>
+</ul>
+</section><section id="blogger" class="slide level2">
+<h2>Blogger</h2>
+<ul>
+<li class="fragment">Wrote a lot of blog articles on Data Science and Research Methods / Apps on Chinese blog platforms</li>
+</ul>
+</section><section id="section-1" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-14-19-31-42-809355.png" data-background-size="contain">
+<h2></h2>
+</section><section id="blogging-in-english" class="slide level2">
+<h2>Blogging in English</h2>
+<ul>
+<li class="fragment">Medium</li>
+<li class="fragment">Writer of column “Data Driven Investor”</li>
+<li class="fragment">Writer of column “Towards Data Science”</li>
+</ul>
+</section><section id="section-2" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-14-19-30-50-613325.png" data-background-size="contain">
+<h2></h2>
+</section></section>
+<section><section id="artificial-intelligence-machine-learning" class="title-slide slide level1"><h1>Artificial Intelligence &amp; Machine Learning</h1></section><section id="artificial-intelligence" class="slide level2">
+<h2>Artificial Intelligence</h2>
+<ul>
+<li class="fragment">Requirement</li>
+</ul>
+</section><section id="section-3" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-08-54-00-423105.png" data-background-size="contain">
+<h2></h2>
+</section><section id="definition" class="slide level2">
+<h2>Definition</h2>
+<blockquote>
+<p>intelligence demonstrated by machines, in contrast to the natural intelligence displayed by humans and other animals. (wikipedia)</p>
+</blockquote>
+</section><section id="examples" class="slide level2">
+<h2>Examples</h2>
+</section><section id="section-4" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-15-13-36-272759.jpg" data-background-size="contain">
+<h2></h2>
+</section><section id="how" class="slide level2">
+<h2>How?</h2>
+<ul>
+<li class="fragment">Is it because somebody made a wonderful rule-based program?</li>
+<li class="fragment">No, if so, he/she can be the champion.</li>
+</ul>
+</section><section id="creators-of-alphago" class="slide level2">
+<h2>Creators of AlphaGo</h2>
+<ul>
+<li class="fragment">DeepMind</li>
+<li class="fragment">leading by Demis Hasabis</li>
+</ul>
+</section><section id="section-5" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-15-09-41-434995.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-6" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-15-13-38-549660.jpg" data-background-size="contain">
+<h2></h2>
+</section><section id="section-7" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-25-10-03-28-641131.jpg" data-background-size="contain">
+<h2></h2>
+</section><section id="how-1" class="slide level2">
+<h2>How?</h2>
+<ul>
+<li class="fragment">Machine Learned how to play itself</li>
+</ul>
+</section><section id="machine-learning" class="slide level2">
+<h2>Machine Learning</h2>
+</section><section id="section-8" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-08-58-33-047359.png" data-background-size="contain">
+<h2></h2>
+</section><section id="definition-1" class="slide level2">
+<h2>Definition</h2>
+<blockquote>
+<p>systems can learn from data, identify patterns and make decisions with minimal human intervention. (wikipedia)</p>
+</blockquote>
+</section><section id="tranditional-programming-vs-machine-learning" class="slide level2">
+<h2>Tranditional Programming vs Machine Learning</h2>
+</section><section id="section-9" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-09-12-33-509284.png" data-background-size="contain">
+<h2></h2>
+</section><section id="machine-learning-models" class="slide level2">
+<h2>Machine Learning Models</h2>
+</section><section id="classification" class="slide level2">
+<h2>Classification</h2>
+</section><section id="section-10" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-15-21-31-309972.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-11" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-15-22-02-355046.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-12" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-15-22-07-025372.jpg" data-background-size="contain">
+<h2></h2>
+</section><section id="decision-trees" class="slide level2">
+<h2>Decision Trees</h2>
+</section><section id="section-13" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-10-59-13-834518.jpg" data-background-size="contain">
+<h2></h2>
+</section><section id="logistic-regression" class="slide level2">
+<h2>Logistic Regression</h2>
+</section><section id="section-14" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-15-22-07-396521.jpg" data-background-size="contain">
+<h2></h2>
+</section><section id="complex-problems" class="slide level2">
+<h2>Complex Problems</h2>
+</section><section id="section-15" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-10-59-14-132464.jpg" data-background-size="contain">
+<h2></h2>
+</section><section id="tensorflow-playground" class="slide level2">
+<h2>Tensorflow Playground</h2>
+</section><section id="section-16" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-09-19-43-314899.png" data-background-size="contain">
+<h2></h2>
+</section><section id="logistic-regression-1" class="slide level2">
+<h2>Logistic regression</h2>
+<ul>
+<li class="fragment">a short video</li>
+</ul>
+</section><section id="section-17" class="slide level2">
+<h2></h2>
+<video class="stretch" src="https://github.com/wshuyi/github_pub_img/raw/master/assets/logistic-regression-playground.mp4" data-autoplay controls>
+</video>
+</section><section id="complex-problem" class="slide level2">
+<h2>complex problem</h2>
+</section><section id="section-18" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-09-20-47-294198.png" data-background-size="contain">
+<h2></h2>
+</section><section id="still-logistic-regression" class="slide level2">
+<h2>Still Logistic regression</h2>
+<ul>
+<li class="fragment">a short video</li>
+</ul>
+</section><section id="section-19" class="slide level2">
+<h2></h2>
+<video class="stretch" src="https://github.com/wshuyi/github_pub_img/raw/master/assets/logistic-regression-complex-playground.mp4" data-autoplay controls>
+</video>
+</section><section id="change-to-neural-networks" class="slide level2">
+<h2>Change to Neural Networks</h2>
+</section><section id="section-20" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-11-03-08-820494.png" data-background-size="contain">
+<h2></h2>
+</section><section id="shallow-neural-networks" class="slide level2">
+<h2>shallow neural networks</h2>
+<ul>
+<li class="fragment">a short video</li>
+</ul>
+</section><section id="section-21" class="slide level2">
+<h2></h2>
+<video class="stretch" src="https://github.com/wshuyi/github_pub_img/raw/master/assets/no-so-complex.mp4" data-autoplay controls>
+</video>
+</section><section id="deep-neural-network" class="slide level2">
+<h2>Deep Neural Network</h2>
+<ul>
+<li class="fragment">Definition</li>
+<li class="fragment">more than 2 hidden layers</li>
+<li class="fragment">“Deep (Neural Network for Machine) Learning”</li>
+</ul>
+</section><section id="section-22" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-11-06-30-168055.png" data-background-size="contain">
+<h2></h2>
+</section><section id="effect-of-deep-learning" class="slide level2">
+<h2>Effect of Deep Learning</h2>
+<ul>
+<li class="fragment">a short video</li>
+</ul>
+</section><section id="section-23" class="slide level2">
+<h2></h2>
+<video class="stretch" src="https://github.com/wshuyi/github_pub_img/raw/master/assets/complex-structure-for-complex-problem.mp4" data-autoplay controls>
+</video>
+</section><section id="trend-of-deep-learning" class="slide level2">
+<h2>Trend of Deep Learning</h2>
+</section><section id="section-24" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-15-29-46-290964.png" data-background-size="contain">
+<h2></h2>
+</section><section id="important-things" class="slide level2">
+<h2>Important Things</h2>
+<ul>
+<li class="fragment">Data</li>
+<li class="fragment">Structure</li>
+<li class="fragment">Loss</li>
+</ul>
+</section><section id="data" class="slide level2">
+<h2>Data</h2>
+<ul>
+<li class="fragment">no need for huge rule-based program coding</li>
+<li class="fragment">a lot of data</li>
+</ul>
+</section><section id="section-25" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-11-03-25-744002.png" data-background-size="contain">
+<h2></h2>
+</section><section id="structure" class="slide level2">
+<h2>Structure</h2>
+</section><section id="convolutional-neural-network" class="slide level2">
+<h2>Convolutional Neural Network</h2>
+<ul>
+<li class="fragment">Computer Vision</li>
+</ul>
+</section><section id="section-26" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-10-16-31-818819.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-27" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-14-19-30-16-663874.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-28" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-15-34-40-745337.gif" data-background-size="contain">
+<h2></h2>
+</section><section id="recurrent-neural-network" class="slide level2">
+<h2>Recurrent Neural Network</h2>
+<ul>
+<li class="fragment">Sequence Data</li>
+<li class="fragment">In some cases, sequence matters</li>
+</ul>
+</section><section id="section-29" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-16-05-51-858208.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-30" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-10-42-50-574117.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-31" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-16-05-52-253709.gif" data-background-size="contain">
+<h2></h2>
+</section><section id="section-32" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-10-42-50-864753.png" data-background-size="contain">
+<h2></h2>
+</section><section id="loss" class="slide level2">
+<h2>Loss</h2>
+<ul>
+<li class="fragment">Measure how wrong your prediction is</li>
+<li class="fragment">Improve in next iteration</li>
+</ul>
+</section><section id="section-33" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-16-05-52-546862.jpg" data-background-size="contain">
+<h2></h2>
+</section><section id="machine-learning-in-traffic-management" class="slide level2">
+<h2>Machine Learning in Traffic Management</h2>
+</section><section id="section-34" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-09-48-54-890739.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-35" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-09-49-36-202818.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-36" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-09-51-53-841298.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-37" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-15-49-06-883982.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-38" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-09-51-31-957079.png" data-background-size="contain">
+<h2></h2>
+</section></section>
+<section><section id="traffic-jam-prediction-with-sequence-model" class="title-slide slide level1"><h1>Traffic Jam Prediction with Sequence Model</h1></section><section id="dataset" class="slide level2">
+<h2>Dataset</h2>
+</section><section id="waze-data" class="slide level2">
+<h2>Waze Data</h2>
+</section><section id="section-39" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-10-28-29-673945.png" data-background-size="contain">
+<h2></h2>
+</section><section id="exploratory-data-analysis" class="slide level2">
+<h2>Exploratory Data Analysis</h2>
+<ul>
+<li class="fragment">GeoPandas</li>
+</ul>
+</section><section id="section-40" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-09-08-29-822164.png" data-background-size="contain">
+<h2></h2>
+</section><section id="events-types" class="slide level2">
+<h2>Events Types</h2>
+</section><section id="section-41" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-10-22-37-833598.png" data-background-size="contain">
+<h2></h2>
+</section><section id="build-sequence" class="slide level2">
+<h2>Build Sequence</h2>
+</section><section id="section-42" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-10-24-12-261900.png" data-background-size="contain">
+<h2></h2>
+</section><section id="model" class="slide level2">
+<h2>Model</h2>
+<ul>
+<li class="fragment">Sequence Model</li>
+</ul>
+</section><section id="section-43" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-10-34-33-936685.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-44" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-10-42-50-909166.jpeg" data-background-size="contain">
+<h2></h2>
+</section><section id="section-45" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-10-30-27-695776.png" data-background-size="contain">
+<h2></h2>
+</section><section id="result" class="slide level2">
+<h2>Result</h2>
+</section><section id="section-46" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-10-35-45-139499.png" data-background-size="contain">
+<h2></h2>
+</section><section id="findings" class="slide level2">
+<h2>Findings</h2>
+<ul>
+<li class="fragment">Pattern in Traffic Pattern Sequence Data</li>
+<li class="fragment">Evidence Accumulated, good prediction</li>
+</ul>
+</section><section id="discussion" class="slide level2">
+<h2>Discussion</h2>
+<ul>
+<li class="fragment">Traffic: Complex Adaptive System</li>
+<li class="fragment">Simulation</li>
+</ul>
+</section><section id="section-47" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-16-05-53-036957.gif" data-background-size="contain">
+<h2></h2>
+</section><section id="section-48" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-16-05-53-461784.jpg" data-background-size="contain">
+<h2></h2>
+</section><section id="difficulty-of-modeling-cas" class="slide level2">
+<h2>Difficulty of Modeling CAS</h2>
+<ul>
+<li class="fragment">Dynamic</li>
+<li class="fragment">Non-linear</li>
+<li class="fragment">Too many Interactions</li>
+<li class="fragment">System Level</li>
+<li class="fragment">not by hard coding</li>
+<li class="fragment">machine learning</li>
+</ul>
+</section><section id="problem" class="slide level2">
+<h2>Problem</h2>
+<ul>
+<li class="fragment">Data Quality</li>
+<li class="fragment">Noisy</li>
+<li class="fragment">Crowdsourcing</li>
+</ul>
+</section><section id="section-49" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-10-28-29-673945.png" data-background-size="contain">
+<h2></h2>
+</section><section id="possible-solution" class="slide level2">
+<h2>Possible Solution</h2>
+<ul>
+<li class="fragment">Combine with other data sources</li>
+</ul>
+</section><section id="section-50" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-10-42-51-650286.jpg" data-background-size="contain">
+<h2></h2>
+</section><section id="section-51" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-30-16-05-54-280032.jpg" data-background-size="contain">
+<h2></h2>
+</section><section id="section-52" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-01-28-10-42-51-900318.png" data-background-size="contain">
+<h2></h2>
+</section><section id="problem-contd" class="slide level2">
+<h2>Problem (Cont’d)</h2>
+<ul>
+<li class="fragment">Data Quantity</li>
+<li class="fragment">Only 29 days in November</li>
+<li class="fragment">May lead to overfitting</li>
+</ul>
+</section><section id="possible-solution-1" class="slide level2">
+<h2>Possible Solution</h2>
+<ul>
+<li class="fragment">More Data</li>
+<li class="fragment">How much more?</li>
+<li class="fragment">At least a full cycle</li>
+</ul>
+</section></section>
+<section><section id="potential-applications" class="title-slide slide level1"><h1>Potential Applications</h1></section><section id="traffic-jam-prevention" class="slide level2">
+<h2>Traffic Jam Prevention</h2>
+<ul>
+<li class="fragment">Online Learning</li>
+<li class="fragment">Keep Model Updated</li>
+<li class="fragment">Prediction of Severe Traffic Jam</li>
+<li class="fragment">Precautions</li>
+</ul>
+</section><section id="traffic-accident-prevention" class="slide level2">
+<h2>Traffic Accident Prevention</h2>
+<ul>
+<li class="fragment">Not just counting the numbers</li>
+<li class="fragment">Not for single case prediction</li>
+<li class="fragment">Predict the probability of a severe traffic accident happening</li>
+<li class="fragment">Precautions</li>
+<li class="fragment">May be able to save more lives</li>
+</ul>
+</section><section id="potential-collaboration-opportunities" class="slide level2">
+<h2>Potential Collaboration Opportunities</h2>
+<ul>
+<li class="fragment">(Habib’s part)</li>
+</ul>
+</section><section id="qa" class="slide level2">
+<h2>Q&amp;A</h2>
+<ul>
+<li class="fragment">Any question?</li>
+</ul>
+</section><section id="the-end" class="slide level2">
+<h2>The End</h2>
+<p>Thanks for your time!</p>
+</section></section>
+    </div>
+  </div>
+
+  <script src="reveal.js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+
+navigationMode: 'linear', 
+
+        // Push each slide change to the browser history
+        history: true,
+        // Transition style
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+          { src: 'reveal.js/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+    </body>
+</html>
