@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Shuyi Wang">
+  <title>Privacy Policy Annotation Classification with ULMfit</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="reveal.js/css/reset.css">
+  <link rel="stylesheet" href="reveal.js/css/reveal.css">
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="reveal.js/css/theme/league.css" id="theme">
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Privacy Policy Annotation Classification with ULMfit</h1>
+  <p class="author">Shuyi Wang</p>
+  <p class="date">Jul 2019</p>
+</section>
+
+<section><section id="introduction" class="title-slide slide level1"><h1>Introduction</h1></section><section id="authors" class="slide level2">
+<h2>Authors</h2>
+<ul>
+<li class="fragment">Shuyi Wang. Tianjin Normal University, Tianjin, China</li>
+<li class="fragment">Xiaoyu Zhang. University of North Texas</li>
+<li class="fragment">Junhua Ding. University of North Texas</li>
+</ul>
+</section><section id="background" class="slide level2">
+<h2>Background</h2>
+<ul>
+<li class="fragment">Privacy – Big issue</li>
+</ul>
+</section><section id="section" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-20-00-716765.png" data-background-size="contain">
+<h2></h2>
+</section><section id="personal-data" class="slide level2">
+<h2>personal data</h2>
+<ul>
+<li class="fragment">spreaded different apps</li>
+</ul>
+</section><section id="section-1" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-20-47-433358.png" data-background-size="contain">
+<h2></h2>
+</section><section id="should-we-trust-them" class="slide level2">
+<h2>Should we trust them?</h2>
+<ul>
+<li class="fragment">Privacy Policies</li>
+</ul>
+</section><section id="section-2" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-22-17-797550.png" data-background-size="contain">
+<h2></h2>
+</section><section id="question" class="slide level2">
+<h2>Question</h2>
+<ul>
+<li class="fragment">Anybody actually read them?</li>
+</ul>
+</section><section id="what-if" class="slide level2">
+<h2>What if</h2>
+<ul>
+<li class="fragment">time</li>
+<li class="fragment">Quite long</li>
+<li class="fragment">McDonald, Aleecia M., and Lorrie Faith Cranor. 2008. “The Cost of Reading Privacy Policies.” I/S: A Journal of Law and Policy for the Information Society 4: 543.</li>
+</ul>
+</section><section id="section-3" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-29-01-789335.png" data-background-size="contain">
+<h2></h2>
+</section><section id="quantity-of-policies" class="slide level2">
+<h2>Quantity of Policies</h2>
+<ul>
+<li class="fragment">a lot</li>
+<li class="fragment">“big data”</li>
+<li class="fragment">by definition, hard to handle by current methods</li>
+</ul>
+</section><section id="reading-manually" class="slide level2">
+<h2>reading manually</h2>
+<ul>
+<li class="fragment">Not so practical</li>
+</ul>
+</section><section id="machine-to-help" class="slide level2">
+<h2>Machine to help</h2>
+</section><section id="visualization" class="slide level2">
+<h2>visualization</h2>
+</section><section id="section-4" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-36-11-802955.png" data-background-size="contain">
+<h2></h2>
+</section><section id="chatbot" class="slide level2">
+<h2>chatbot</h2>
+</section><section id="section-5" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-33-24-471808.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-6" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-33-11-706363.png" data-background-size="contain">
+<h2></h2>
+</section><section id="however" class="slide level2">
+<h2>however</h2>
+<ul>
+<li class="fragment">need to classify each segment in a policy document into different categories</li>
+</ul>
+</section><section id="practice" class="slide level2">
+<h2>Practice</h2>
+<ul>
+<li class="fragment">“big” dataset</li>
+</ul>
+</section><section id="dataset" class="slide level2">
+<h2>Dataset</h2>
+<ul>
+<li class="fragment">OPP115</li>
+</ul>
+</section><section id="section-7" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-22-14-22-408170.png" data-background-size="contain">
+<h2></h2>
+</section><section id="annotation" class="slide level2">
+<h2>Annotation</h2>
+<ul>
+<li class="fragment">Labelled by graduate students from law school</li>
+</ul>
+</section><section id="categories" class="slide level2">
+<h2>Categories</h2>
+<ul>
+<li class="fragment">First Party Collection/Use</li>
+<li class="fragment">Third Party Sharing/Collection</li>
+<li class="fragment">User Choice/Control</li>
+<li class="fragment">User Access, Edit, &amp; Deletion</li>
+<li class="fragment">Data Retention</li>
+<li class="fragment">Data Security</li>
+<li class="fragment">Policy Change</li>
+<li class="fragment">Do Not Track</li>
+<li class="fragment">International &amp; Specific Audiences</li>
+<li class="fragment">Other</li>
+</ul>
+</section><section id="problem" class="slide level2">
+<h2>problem</h2>
+<ul>
+<li class="fragment">a lot of policies out there</li>
+<li class="fragment">not so many labelled</li>
+<li class="fragment">cost is too high</li>
+<li class="fragment">experts needed</li>
+<li class="fragment">nobody else wants to read it</li>
+</ul>
+</section><section id="problem-with-small-labelled-dataset" class="slide level2">
+<h2>Problem with small labelled dataset</h2>
+<ul>
+<li class="fragment">Easy to Overfit (complex model)</li>
+<li class="fragment">Scalability (simple model + feature engineering)</li>
+</ul>
+</section><section id="state-of-the-art" class="slide level2">
+<h2>state-of-the-art</h2>
+<ul>
+<li class="fragment">Liu, Frederick, Shomir Wilson, Peter Story, Sebastian Zimmeck, and Norman Sadeh. 2017. “Towards Automatic Classification of Privacy Policy Text.”</li>
+</ul>
+</section><section id="section-8" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-40-12-322856.png" data-background-size="contain">
+<h2></h2>
+</section><section id="result" class="slide level2">
+<h2>Result</h2>
+</section><section id="section-9" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-43-17-719190.png" data-background-size="contain">
+<h2></h2>
+</section><section id="doubts" class="slide level2">
+<h2>Doubts</h2>
+<ul>
+<li class="fragment">why CNN? instead of LSTM?</li>
+</ul>
+</section><section id="paper" class="slide level2">
+<h2>2014 Paper</h2>
+</section><section id="section-10" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-52-50-814097.png" data-background-size="contain">
+<h2></h2>
+</section><section id="simple" class="slide level2">
+<h2>Simple</h2>
+</section><section id="section-11" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-53-31-968735.png" data-background-size="contain">
+<h2></h2>
+</section><section id="multi-kernels" class="slide level2">
+<h2>Multi-kernels</h2>
+</section><section id="section-12" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-20-31-06-414741.png" data-background-size="contain">
+<h2></h2>
+</section><section id="research-questions" class="slide level2">
+<h2>Research Questions</h2>
+<ul>
+<li class="fragment">Can we over-perform the current result with a new model?</li>
+<li class="fragment">How about even less data? (because of the high cost)</li>
+</ul>
+</section></section>
+<section><section id="design" class="title-slide slide level1"><h1>Design</h1></section><section id="recall-that" class="slide level2">
+<h2>Recall that</h2>
+<ul>
+<li class="fragment">labelled dataset is very small</li>
+<li class="fragment">architecture can be complex</li>
+</ul>
+</section><section id="method" class="slide level2">
+<h2>Method</h2>
+<ul>
+<li class="fragment">Transfer Learning for NLP</li>
+</ul>
+</section><section id="how" class="slide level2">
+<h2>How?</h2>
+<ul>
+<li class="fragment">Language Model (self-supervised)</li>
+<li class="fragment">Classifier (supervised)</li>
+</ul>
+</section><section id="different-kinds" class="slide level2">
+<h2>Different kinds</h2>
+<ul>
+<li class="fragment">ULMfit</li>
+<li class="fragment">BERT</li>
+</ul>
+</section><section id="transfer-learning" class="slide level2">
+<h2>Transfer Learning</h2>
+</section><section id="section-13" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-21-11-21-786927.png" data-background-size="contain">
+<h2></h2>
+</section><section id="choice" class="slide level2">
+<h2>Choice</h2>
+<ul>
+<li class="fragment">ULMfit</li>
+<li class="fragment">fast.ai</li>
+<li class="fragment">Easy to use</li>
+</ul>
+</section><section id="section-14" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-59-52-752357.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-15" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-17-00-51-530882.png" data-background-size="contain">
+<h2></h2>
+</section><section id="illustration" class="slide level2">
+<h2>Illustration</h2>
+</section><section id="section-16" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-20-10-36-355758.png" data-background-size="contain">
+<h2></h2>
+</section><section id="trial-run" class="slide level2">
+<h2>Trial Run</h2>
+</section><section id="section-17" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-20-20-55-134482.png" data-background-size="contain">
+<h2></h2>
+</section><section id="problem-1" class="slide level2">
+<h2>problem</h2>
+<ul>
+<li class="fragment">no code for CNN model</li>
+<li class="fragment">no detailed information (how divided, random seed)</li>
+</ul>
+</section><section id="problem-2" class="slide level2">
+<h2>Problem</h2>
+<ul>
+<li class="fragment">Can not compare with the results reported</li>
+<li class="fragment">Re-implement the CNN model</li>
+</ul>
+</section><section id="reproducibility" class="slide level2">
+<h2>Reproducibility</h2>
+</section><section id="section-18" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-50-39-090518.png" data-background-size="contain">
+<h2></h2>
+</section><section id="to-compare" class="slide level2">
+<h2>To compare</h2>
+<ul>
+<li class="fragment">Two CNN models</li>
+<li class="fragment">A simple one with just one kernel size (2)</li>
+<li class="fragment">A multi-kernel one (2, 3, 4)</li>
+<li class="fragment">same number of filter channels (100)</li>
+</ul>
+</section></section>
+<section><section id="experiment-i" class="title-slide slide level1"><h1>Experiment I</h1></section><section id="data-set-split" class="slide level2">
+<h2>Data set Split</h2>
+<ul>
+<li class="fragment">training: 70%, 81</li>
+<li class="fragment">valid: 15%, 17</li>
+<li class="fragment">test: 15%, 17</li>
+</ul>
+</section><section id="length-segments" class="slide level2">
+<h2>length (segments)</h2>
+<ul>
+<li class="fragment">train: 718</li>
+<li class="fragment">valid: 463</li>
+<li class="fragment">test: 642</li>
+</ul>
+</section><section id="environment" class="slide level2">
+<h2>Environment</h2>
+<ul>
+<li class="fragment">Python 3.6</li>
+<li class="fragment">PyTorch 1.0 + fast.ai</li>
+<li class="fragment">Google Colab + Kaggle Kernels</li>
+<li class="fragment">for reproducibility</li>
+<li class="fragment">and free GPU</li>
+</ul>
+</section><section id="hyper-parameters-settings" class="slide level2">
+<h2>Hyper Parameters Settings</h2>
+</section><section id="cnn" class="slide level2">
+<h2>CNN</h2>
+<ul>
+<li class="fragment">20 epochs</li>
+<li class="fragment">select best model weights on valid set</li>
+<li class="fragment">test set for evaluation</li>
+</ul>
+</section><section id="ulmfit" class="slide level2">
+<h2>ULMfit</h2>
+<ul>
+<li class="fragment">unfreeze layers step by step</li>
+<li class="fragment">1-2 cycles for language model</li>
+<li class="fragment">1-3-5 cycles for classifier</li>
+<li class="fragment">“One Cycle Policy”</li>
+</ul>
+</section><section id="section-19" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-21-21-25-853441.png" data-background-size="contain">
+<h2></h2>
+</section><section id="result-1" class="slide level2">
+<h2>Result</h2>
+</section><section id="full-length-train-set" class="slide level2">
+<h2>full length train set</h2>
+<ul>
+<li class="fragment">81</li>
+</ul>
+</section><section id="cnn-multi-vs-simple" class="slide level2">
+<h2>CNN multi vs simple</h2>
+</section><section id="f1-score" class="slide level2">
+<h2>f1 score</h2>
+</section><section id="section-20" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-15-58-37-722378.png" data-background-size="contain">
+<h2></h2>
+</section><section id="precision" class="slide level2">
+<h2>Precision</h2>
+</section><section id="section-21" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-15-59-14-038617.png" data-background-size="contain">
+<h2></h2>
+</section><section id="recall" class="slide level2">
+<h2>Recall</h2>
+</section><section id="section-22" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-15-59-33-785689.png" data-background-size="contain">
+<h2></h2>
+</section><section id="cnn-multi-vs-ulmfit" class="slide level2">
+<h2>CNN multi vs ulmfit</h2>
+</section><section id="f1-score-1" class="slide level2">
+<h2>f1 score</h2>
+</section><section id="section-23" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-15-29-57-885595.png" data-background-size="contain">
+<h2></h2>
+</section><section id="precision-1" class="slide level2">
+<h2>Precision</h2>
+</section><section id="section-24" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-15-31-22-865006.png" data-background-size="contain">
+<h2></h2>
+</section><section id="recall-1" class="slide level2">
+<h2>Recall</h2>
+</section><section id="section-25" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-15-33-14-704090.png" data-background-size="contain">
+<h2></h2>
+</section></section>
+<section><section id="experiment-ii" class="title-slide slide level1"><h1>Experiment II</h1></section><section id="how-about-even-less-data" class="slide level2">
+<h2>How about even less data?</h2>
+</section><section id="different-training-data-size" class="slide level2">
+<h2>different training data size</h2>
+<ul>
+<li class="fragment">81</li>
+<li class="fragment">60</li>
+<li class="fragment">40</li>
+<li class="fragment">20</li>
+</ul>
+</section><section id="result-2" class="slide level2">
+<h2>Result</h2>
+</section><section id="cnn-multi-vs-single" class="slide level2">
+<h2>CNN multi vs single</h2>
+</section><section id="f1-score-2" class="slide level2">
+<h2>f1 score</h2>
+</section><section id="section-26" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-06-45-931547.png" data-background-size="contain">
+<h2></h2>
+</section><section id="precision-2" class="slide level2">
+<h2>Precision</h2>
+</section><section id="section-27" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-07-09-598317.png" data-background-size="contain">
+<h2></h2>
+</section><section id="recall-2" class="slide level2">
+<h2>Recall</h2>
+</section><section id="section-28" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-07-37-567304.png" data-background-size="contain">
+<h2></h2>
+</section><section id="cnn-multi-vs-ulmfit-1" class="slide level2">
+<h2>CNN multi vs ULMfit</h2>
+</section><section id="f1-score-3" class="slide level2">
+<h2>f1 score</h2>
+</section><section id="section-29" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-14-44-404067.png" data-background-size="contain">
+<h2></h2>
+</section><section id="precision-3" class="slide level2">
+<h2>Precision</h2>
+</section><section id="section-30" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-15-05-233435.png" data-background-size="contain">
+<h2></h2>
+</section><section id="recall-3" class="slide level2">
+<h2>Recall</h2>
+</section><section id="section-31" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-15-24-057172.png" data-background-size="contain">
+<h2></h2>
+</section><section id="cnn-single-vs-ulmfit" class="slide level2">
+<h2>CNN single vs ULMfit</h2>
+</section><section id="f1-score-4" class="slide level2">
+<h2>f1 score</h2>
+</section><section id="section-32" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-16-46-140960.png" data-background-size="contain">
+<h2></h2>
+</section><section id="precision-4" class="slide level2">
+<h2>Precision</h2>
+</section><section id="section-33" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-17-01-824617.png" data-background-size="contain">
+<h2></h2>
+</section><section id="recall-4" class="slide level2">
+<h2>Recall</h2>
+</section><section id="section-34" class="slide level2" data-background-image="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-16-17-14-688064.png" data-background-size="contain">
+<h2></h2>
+</section></section>
+<section><section id="conclusion" class="title-slide slide level1"><h1>Conclusion</h1></section><section id="to-wrap-up" class="slide level2">
+<h2>To wrap up</h2>
+<ul>
+<li class="fragment">On OPP115 dataset, transfer learning on NLP (ULMfit) proved to over-perform CNN models</li>
+<li class="fragment">When decreasing the training set, ULMfit still performs better than CNN models</li>
+</ul>
+</section><section id="future-work" class="slide level2">
+<h2>Future work</h2>
+<ul>
+<li class="fragment">Try BERT</li>
+<li class="fragment">Multi-label classification rather than multiple models</li>
+<li class="fragment">Improve the visualization</li>
+</ul>
+</section><section id="source-of-images" class="slide level2">
+<h2>Source of images</h2>
+<ul>
+<li class="fragment"><a href="https://www.google.com/url?sa=i&amp;source=images&amp;cd=&amp;ved=2ahUKEwjmtPPr2dPiAhWBiOAKHWJxDGIQjRx6BAgBEAU&amp;url=https%3A%2F%2Ftowardsdatascience.com%2Funderstanding-how-convolutional-neural-network-cnn-perform-text-classification-with-word-d2ee64b9dd0b&amp;psig=AOvVaw0DmiXzrPeY2m_89dj1R5Ft&amp;ust=1559870833359705">Multi-kernel CNN</a></li>
+<li class="fragment"><a href="https://arxiv.org/abs/1801.06146">ULMfit illustration</a></li>
+<li class="fragment"><a href="http://sebastianzimmeck.de/liuEtAlClassification2018.pdf">Current State-of-the-art Result</a></li>
+</ul>
+</section><section id="references" class="slide level2">
+<h2>References</h2>
+<ul>
+<li class="fragment">Devlin, Jacob, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. 2018. “BERT: Pre-Training of Deep Bidirectional Transformers for Language Understanding,” October. http://arxiv.org/abs/1810.04805.</li>
+<li class="fragment">Harkous, Hamza, Kassem Fawaz, Rémi Lebret, Florian Schaub, Kang G. Shin, and Karl Aberer. 2018. “Polisis: Automated Analysis and Presentation of Privacy Policies Using Deep Learning,” February. http://arxiv.org/abs/1802.02561.</li>
+<li class="fragment">Harkous, Hamza, Kassem Fawaz, Kang G. Shin, and Karl Aberer. 2016. “PriBots: Conversational Privacy with Chatbots.” In WSF@ SOUPS.</li>
+</ul>
+</section><section id="references-1" class="slide level2">
+<h2>References</h2>
+<ul>
+<li class="fragment">Howard, Jeremy, and Sebastian Ruder. 2018. “Universal Language Model Fine-Tuning for Text Classification,” January. http://arxiv.org/abs/1801.06146.</li>
+<li class="fragment">Liu, Frederick, Shomir Wilson, Peter Story, Sebastian Zimmeck, and Norman Sadeh. 2017. “Towards Automatic Classification of Privacy Policy Text.”</li>
+<li class="fragment">McDonald, Aleecia M., and Lorrie Faith Cranor. 2008. “The Cost of Reading Privacy Policies.” I/S: A Journal of Law and Policy for the Information Society 4: 543. https://heinonline.org/HOL/Page?handle=hein.journals/isjlpsoc4&amp;id=563&amp;div=&amp;collection=.</li>
+</ul>
+</section><section id="references-2" class="slide level2">
+<h2>References</h2>
+<ul>
+<li class="fragment">Peters, Matthew E., Mark Neumann, Mohit Iyyer, Matt Gardner, Christopher Clark, Kenton Lee, and Luke Zettlemoyer. 2018. “Deep Contextualized Word Representations,” February. http://arxiv.org/abs/1802.05365.</li>
+<li class="fragment">Radford, Alec, Karthik Narasimhan, Tim Salimans, and Ilya Sutskever. n.d. “Improving Language Understanding by Generative Pre-Training,” 12.</li>
+<li class="fragment">Wilson, Shomir, Norman Sadeh, Noah A. Smith, Florian Schaub, Frederick Liu, Kanthashree Mysore Sathyendra, Daniel Smullen, et al. 2018. “Analyzing Privacy Policies at Scale: From Crowdsourcing to Automated Annotations.” ACM Transactions on the Web 13 (1): 1–29. https://doi.org/10.1145/3230665.</li>
+</ul>
+</section><section id="keep-in-touch" class="slide level2">
+<h2>Keep in touch</h2>
+<ul>
+<li class="fragment">nkwshuyi@gmail.com</li>
+<li class="fragment">https://towardsdatascience.com/<span class="citation" data-cites="wshuyi">@wshuyi</span></li>
+<li class="fragment">https://twitter.com/wshuyi</li>
+</ul>
+</section><section id="for-wechat-user" class="slide level2">
+<h2>For wechat user</h2>
+<ul>
+<li class="fragment">Official Account</li>
+<li class="fragment"><img src="https://github.com/wshuyi/github_pub_img/raw/master/assets/2019-06-05-22-28-46-142557.png" style="border-style: none" alt=""></li>
+</ul>
+</section><section id="the-end" class="slide level2">
+<h2>The End</h2>
+<p>Thanks for your time!</p>
+</section></section>
+    </div>
+  </div>
+
+  <script src="reveal.js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+
+navigationMode: 'linear', 
+
+        // Push each slide change to the browser history
+        history: true,
+        // Transition style
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+          { src: 'reveal.js/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+    </body>
+</html>
