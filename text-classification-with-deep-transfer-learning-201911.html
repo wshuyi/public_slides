@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Shuyi Wang">
+  <title>Text Classification with Deep Transfer Learning</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="reveal.js/css/reset.css">
+  <link rel="stylesheet" href="reveal.js/css/reveal.css">
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="reveal.js/css/theme/black.css" id="theme">
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Text Classification with Deep Transfer Learning</h1>
+  <p class="author">Shuyi Wang</p>
+  <p class="date">Nov 2019</p>
+</section>
+
+<section><section id="content" class="title-slide slide level1"><h1>Content</h1></section><section id="ontline" class="slide level2">
+<h2>Ontline</h2>
+<ul>
+<li class="fragment">Self-introduction</li>
+<li class="fragment">Machine Learning for Classification</li>
+<li class="fragment">Deep Learning for Classification</li>
+<li class="fragment">Deep Transfer Learning for Text Classification</li>
+<li class="fragment">Q&amp;A</li>
+</ul>
+</section></section>
+<section><section id="self-introduction" class="title-slide slide level1"><h1>Self-introduction</h1></section><section id="education-background" class="slide level2">
+<h2>education background</h2>
+<ul>
+<li class="fragment">Bachelor’s degree. Computer Science and Technology. Nankai University. June, 2004.</li>
+<li class="fragment">Master’s degree. Computer Application Technologies. Tianjin University. June, 2007.</li>
+<li class="fragment">PhD. Information Science. Nankai University. June, 2011.</li>
+</ul>
+</section><section id="working-experience" class="slide level2">
+<h2>Working Experience</h2>
+<ul>
+<li class="fragment">Associate Professor in School of Management, Tianjin Normal University.</li>
+<li class="fragment">Adjunct Faculty in University of North Texas, TX, US.</li>
+</ul>
+</section><section id="section" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-07-22-05-08-044310.png" data-background-size="contain">
+<h2></h2>
+</section></section>
+<section><section id="machine-learning-for-classification" class="title-slide slide level1"><h1>Machine Learning for Classification</h1></section><section id="classification" class="slide level2">
+<h2>Classification</h2>
+<ul>
+<li class="fragment">Jacob, E. K. (2004). Classification and categorization: a difference that makes a difference.</li>
+<li class="fragment">Classification as process involves the orderly and systematic assignment of each entity to <strong>one and only one</strong> class within a system of <strong>mutually exclusive</strong> and <strong>non overlapping</strong> classes.</li>
+</ul>
+</section><section id="applications" class="slide level2">
+<h2>Applications</h2>
+</section><section id="section-1" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-01-30-15-21-31-309972.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-2" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-01-30-15-22-02-355046.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-3" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-01-30-15-22-07-025372.jpg" data-background-size="contain">
+<h2></h2>
+</section><section id="section-4" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-09-30-15-16-49-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="approaches" class="slide level2">
+<h2>Approaches</h2>
+<ul>
+<li class="fragment">human</li>
+<li class="fragment">machine</li>
+</ul>
+</section><section id="human" class="slide level2">
+<h2>human</h2>
+<ul>
+<li class="fragment">labor intensive</li>
+<li class="fragment">cannot handle big data</li>
+</ul>
+</section><section id="machine" class="slide level2">
+<h2>machine</h2>
+<ul>
+<li class="fragment">rule-based system</li>
+<li class="fragment">machine Learning</li>
+</ul>
+</section><section id="rule-based-system" class="slide level2">
+<h2>rule based system</h2>
+<ul>
+<li class="fragment">problem
+<ul>
+<li class="fragment">machines are dumb</li>
+</ul></li>
+<li class="fragment">human needs give them clear rules
+<ul>
+<li class="fragment">expert system</li>
+</ul></li>
+</ul>
+</section><section id="sometime-doesnt-work" class="slide level2">
+<h2>Sometime doesn’t work</h2>
+<ul>
+<li class="fragment">if rule is not clear</li>
+<li class="fragment">or simply wrong</li>
+</ul>
+</section><section id="example-of-failure" class="slide level2">
+<h2>example of failure</h2>
+<ul>
+<li class="fragment">Plato was applauded for his definition of man as a featherless biped</li>
+<li class="fragment">Diogenes the Cynic “plucked the feathers from a cock, brought it to Plato’s school, and said, ‘Here is Plato’s man.’”</li>
+</ul>
+</section><section id="section-5" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2018-12-06-17-34-38-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="what-if" class="slide level2">
+<h2>What if</h2>
+<ul>
+<li class="fragment">we cannot describe the rules</li>
+<li class="fragment">let machine learn from data</li>
+<li class="fragment">machine learning</li>
+</ul>
+</section><section id="machine-learning" class="slide level2">
+<h2>Machine learning</h2>
+<ul>
+<li class="fragment">Definition:</li>
+<li class="fragment">Machine learning (ML) is the study of algorithms and mathematical models that computer systems use to progressively improve their performance on a specific task. (Wikipedia)</li>
+</ul>
+</section><section id="illustration" class="slide level2">
+<h2>Illustration</h2>
+</section><section id="section-6" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2018-12-06-17-14-39-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="different-types" class="slide level2">
+<h2>Different types</h2>
+<ul>
+<li class="fragment">Supervised</li>
+<li class="fragment">Unsupervised</li>
+<li class="fragment">Reinforcement</li>
+</ul>
+</section><section id="supervised" class="slide level2">
+<h2>Supervised</h2>
+<ul>
+<li class="fragment">Labels need to be provided</li>
+<li class="fragment">eg: classification</li>
+</ul>
+</section><section id="unsupervised" class="slide level2">
+<h2>Unsupervised</h2>
+<ul>
+<li class="fragment">No Label needed</li>
+<li class="fragment">eg: clustering</li>
+</ul>
+</section><section id="comparison-between-them" class="slide level2">
+<h2>Comparison between them</h2>
+</section><section id="section-7" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-04-02-10-03-54-121066.png" data-background-size="contain">
+<h2></h2>
+</section><section id="exercise-on-clustering" class="slide level2">
+<h2>exercise on clustering</h2>
+<ul>
+<li class="fragment">How to cluster / group the following animals?</li>
+<li class="fragment">chicken, goldfish, goose, duck</li>
+</ul>
+</section><section id="answer-for-clustering" class="slide level2">
+<h2>Answer for Clustering</h2>
+<ul>
+<li class="fragment">{chicken, goose, duck} {goldfish}</li>
+<li class="fragment">{chicken}, {goldfish, goose, duck}</li>
+</ul>
+</section><section id="exercise-on-classifciation" class="slide level2">
+<h2>exercise on classifciation</h2>
+<ul>
+<li class="fragment">How to classify the following animals?</li>
+<li class="fragment">chicken, goldfish, goose, duck</li>
+</ul>
+</section><section id="answer-for-classification" class="slide level2">
+<h2>Answer for classification</h2>
+<ul>
+<li class="fragment">You cannot do it</li>
+<li class="fragment">No label provided!</li>
+</ul>
+</section><section id="section-8" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2018-12-06-17-14-39-000000-1.png" data-background-size="contain">
+<h2></h2>
+</section><section id="classification-with-machine-learning" class="slide level2">
+<h2>Classification with Machine Learning</h2>
+<ul>
+<li class="fragment">Classical Methods
+<ul>
+<li class="fragment">Decision Tree</li>
+<li class="fragment">Logistic Regression</li>
+<li class="fragment">SVM</li>
+<li class="fragment">Random Forest</li>
+</ul></li>
+</ul>
+</section><section id="decision-tree" class="slide level2">
+<h2>Decision Tree</h2>
+<ul>
+<li class="fragment">Example: Titanic</li>
+</ul>
+</section><section id="section-9" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2018-12-06-20-05-14-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="data-of-titanic-passengers" class="slide level2">
+<h2>Data of Titanic Passengers</h2>
+</section><section id="section-10" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2018-12-06-20-05-21-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="the-trained-tree" class="slide level2">
+<h2>The trained tree</h2>
+<ul>
+<li class="fragment"><img src="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-04-02-10-05-17-601607.png" style="border-style: none" alt=""></li>
+<li class="fragment">Source: <a href="https://goo.gl/YyagUZ">https://goo.gl/YyagUZ</a></li>
+</ul>
+</section><section id="problems-of-classical-machine-learning" class="slide level2">
+<h2>Problems of classical machine learning</h2>
+<ul>
+<li class="fragment">Can not handle complex task
+<ul>
+<li class="fragment">hard to get features</li>
+<li class="fragment">non-linear separable</li>
+</ul></li>
+</ul>
+</section><section id="hard-to-get-features" class="slide level2">
+<h2>hard to get features</h2>
+</section><section id="section-11" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2018-12-06-20-05-21-000000-1.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-12" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2018-12-06-20-29-36-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="feature-engineering" class="slide level2">
+<h2>Feature Engineering</h2>
+</section><section id="section-13" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2018-12-06-20-23-03-000000.gif" data-background-size="contain">
+<h2></h2>
+</section><section id="out-of-date" class="slide level2">
+<h2>out-of-date</h2>
+</section><section id="section-14" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2018-12-06-20-23-30-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="example" class="slide level2">
+<h2>Example</h2>
+<ul>
+<li class="fragment">Please hand-craft feature for the following image of a panda:</li>
+<li class="fragment"><img src="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-04-02-10-06-25-101889.png" style="border-style: none" alt=""></li>
+</ul>
+</section><section id="test-if-it-works" class="slide level2">
+<h2>Test if it works</h2>
+<ul>
+<li class="fragment">Try on the following images</li>
+</ul>
+</section><section id="section-15" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-04-02-10-06-43-675807.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-16" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-04-02-10-06-52-531740.png" data-background-size="contain">
+<h2></h2>
+</section><section id="non-linear-separable" class="slide level2">
+<h2>non-linear separable</h2>
+</section><section id="section-17" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2018-12-06-20-27-09-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-18" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2018-12-06-20-27-22-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-19" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2018-12-06-21-46-07-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="complex-problems" class="slide level2">
+<h2>Complex Problems</h2>
+</section><section id="section-20" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-01-28-10-59-14-132464.jpg" data-background-size="contain">
+<h2></h2>
+</section><section id="tensorflow-playground" class="slide level2">
+<h2>Tensorflow Playground</h2>
+</section><section id="section-21" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-01-30-09-19-43-314899.png" data-background-size="contain">
+<h2></h2>
+</section><section id="logistic-regression" class="slide level2">
+<h2>Logistic regression</h2>
+<ul>
+<li class="fragment">a short video</li>
+</ul>
+</section><section id="section-22" class="slide level2">
+<h2></h2>
+<video class="stretch" src="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/logistic-regression-playground.mp4" data-autoplay controls>
+</video>
+</section><section id="complex-problem" class="slide level2">
+<h2>complex problem</h2>
+</section><section id="section-23" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-01-30-09-20-47-294198.png" data-background-size="contain">
+<h2></h2>
+</section><section id="still-logistic-regression" class="slide level2">
+<h2>Still Logistic regression</h2>
+<ul>
+<li class="fragment">a short video</li>
+</ul>
+</section><section id="section-24" class="slide level2">
+<h2></h2>
+<video class="stretch" src="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/logistic-regression-complex-playground.mp4" data-autoplay controls>
+</video>
+</section><section id="change-to-neural-networks" class="slide level2">
+<h2>Change to Neural Networks</h2>
+</section><section id="section-25" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-01-30-11-03-08-820494.png" data-background-size="contain">
+<h2></h2>
+</section><section id="shallow-neural-networks" class="slide level2">
+<h2>shallow neural networks</h2>
+<ul>
+<li class="fragment">a short video</li>
+</ul>
+</section><section id="section-26" class="slide level2">
+<h2></h2>
+<video class="stretch" src="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/no-so-complex.mp4" data-autoplay controls>
+</video>
+</section><section id="deeper-neural-network" class="slide level2">
+<h2>Deeper Neural Network</h2>
+</section><section id="section-27" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-01-30-11-06-30-168055.png" data-background-size="contain">
+<h2></h2>
+</section><section id="effect" class="slide level2">
+<h2>Effect</h2>
+<ul>
+<li class="fragment">a short video</li>
+</ul>
+</section><section id="section-28" class="slide level2">
+<h2></h2>
+<video class="stretch" src="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/complex-structure-for-complex-problem.mp4" data-autoplay controls>
+</video>
+</section></section>
+<section><section id="deep-learning-for-classification" class="title-slide slide level1"><h1>Deep Learning for Classification</h1></section><section id="definition" class="slide level2">
+<h2>definition</h2>
+<ul>
+<li class="fragment">Deep learning (also known as deep structured learning or hierarchical learning) is part of a broader family of machine learning methods based on learning data representations, as opposed to task-specific algorithms.</li>
+</ul>
+</section><section id="common-practice" class="slide level2">
+<h2>Common practice</h2>
+<ul>
+<li class="fragment">more than 2 hidden layers</li>
+<li class="fragment">“Deep (Neural Network for Machine) Learning”</li>
+</ul>
+</section><section id="trend-of-deep-learning" class="slide level2">
+<h2>Trend of Deep Learning</h2>
+</section><section id="section-29" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-01-30-15-29-46-290964.png" data-background-size="contain">
+<h2></h2>
+</section><section id="important-things" class="slide level2">
+<h2>Important Things</h2>
+<ul>
+<li class="fragment">Data</li>
+<li class="fragment">Structure</li>
+<li class="fragment">Loss</li>
+</ul>
+</section><section id="data" class="slide level2">
+<h2>Data</h2>
+<ul>
+<li class="fragment">Tabular</li>
+<li class="fragment">Image</li>
+<li class="fragment">Sequencial (e.g., text)</li>
+</ul>
+</section><section id="big-data" class="slide level2">
+<h2>Big Data</h2>
+<ul>
+<li class="fragment">no need for huge rule-based program coding</li>
+<li class="fragment">a lot of data</li>
+</ul>
+</section><section id="section-30" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-01-28-11-03-25-744002.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-31" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-08-18-41-54-446504.png" data-background-size="contain">
+<h2></h2>
+</section><section id="structure" class="slide level2">
+<h2>Structure</h2>
+<ul>
+<li class="fragment">Dense Neural Network</li>
+<li class="fragment">Convolutional Neural Network</li>
+<li class="fragment">Recurrent Neural Network</li>
+<li class="fragment">Combination of them</li>
+</ul>
+</section><section id="convolutional-neural-network" class="slide level2">
+<h2>Convolutional Neural Network</h2>
+<ul>
+<li class="fragment">Computer Vision</li>
+</ul>
+</section><section id="section-32" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-01-28-10-16-31-818819.png" data-background-size="contain">
+<h2></h2>
+</section><section id="image-classification" class="slide level2">
+<h2>Image Classification</h2>
+<ul>
+<li class="fragment">End to end learning</li>
+<li class="fragment">No feature engineering needed</li>
+<li class="fragment">very complex structure</li>
+</ul>
+</section><section id="section-33" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2018-12-05-19-44-22-000000.gif" data-background-size="contain">
+<h2></h2>
+</section><section id="section-34" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-01-30-15-34-40-745337.gif" data-background-size="contain">
+<h2></h2>
+</section><section id="text-classification" class="slide level2">
+<h2>Text Classification</h2>
+<ul>
+<li class="fragment">Sequence as Input</li>
+<li class="fragment">Judging from the current input and the state changed by previous inputs</li>
+<li class="fragment">Recurrent Neural Network</li>
+</ul>
+</section><section id="section-35" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2018-12-05-19-44-22-000000-1.gif" data-background-size="contain">
+<h2></h2>
+</section><section id="representation-of-word" class="slide level2">
+<h2>Representation of word</h2>
+<ul>
+<li class="fragment">One hot encoding</li>
+</ul>
+</section><section id="section-36" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-08-18-52-13-036622.png" data-background-size="contain">
+<h2></h2>
+</section><section id="word-embedding" class="slide level2">
+<h2>Word Embedding</h2>
+</section><section id="section-37" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-07-22-41-21-073630.png" data-background-size="contain">
+<h2></h2>
+</section><section id="computation" class="slide level2">
+<h2>Computation</h2>
+</section><section id="section-38" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-08-19-47-37-201776.png" data-background-size="contain">
+<h2></h2>
+</section><section id="put-them-together" class="slide level2">
+<h2>Put them together</h2>
+</section><section id="section-39" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-04-02-10-11-15-340869.png" data-background-size="contain">
+<h2></h2>
+</section><section id="other-application-of-lstmrnn" class="slide level2">
+<h2>Other Application of LSTM/RNN</h2>
+<ul>
+<li class="fragment">event prediction</li>
+</ul>
+</section><section id="section-40" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-08-20-04-37-701551.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-41" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-08-20-05-39-987017.png" data-background-size="contain">
+<h2></h2>
+</section><section id="other-than-rnn" class="slide level2">
+<h2>Other than RNN</h2>
+<ul>
+<li class="fragment">CNN</li>
+<li class="fragment">2014 Paper</li>
+</ul>
+</section><section id="section-42" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-06-05-16-52-50-814097.png" data-background-size="contain">
+<h2></h2>
+</section><section id="simple" class="slide level2">
+<h2>Simple</h2>
+</section><section id="section-43" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-06-05-16-53-31-968735.png" data-background-size="contain">
+<h2></h2>
+</section><section id="multi-kernels" class="slide level2">
+<h2>Multi-kernels</h2>
+</section><section id="section-44" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-06-05-20-31-06-414741.png" data-background-size="contain">
+<h2></h2>
+</section><section id="problem" class="slide level2">
+<h2>Problem</h2>
+<ul>
+<li class="fragment">Pollution in local feature generation</li>
+</ul>
+</section><section id="loss" class="slide level2">
+<h2>Loss</h2>
+<ul>
+<li class="fragment">Measure how wrong your prediction is</li>
+<li class="fragment">Improve in next iteration</li>
+<li class="fragment">That is for Machine</li>
+</ul>
+</section><section id="wrong-predictions-from-human-beings" class="slide level2">
+<h2>Wrong Predictions from human beings</h2>
+<ul>
+<li class="fragment">1903: “The automobile is a fad”</li>
+<li class="fragment">1920: “A rocket will never work”</li>
+<li class="fragment">1949: “Computers will weigh just 1.5 tons”</li>
+</ul>
+</section><section id="problem-of-deep-learning" class="slide level2">
+<h2>Problem of Deep Learning</h2>
+<ul>
+<li class="fragment">Require a lot of data</li>
+<li class="fragment">Easy to suffer from <strong>Overfitting</strong>
+<ul>
+<li class="fragment">memorize the results, instead of learn the rules</li>
+</ul></li>
+<li class="fragment">A lot of computing power needed (GPU/TPU)</li>
+<li class="fragment">Time consuming</li>
+</ul>
+</section><section id="gpu" class="slide level2">
+<h2>GPU</h2>
+<ul>
+<li class="fragment">Expensive</li>
+<li class="fragment"><img src="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-06-25-16-50-18-399055.png" style="border-style: none" alt=""></li>
+</ul>
+</section><section id="example-1" class="slide level2">
+<h2>Example</h2>
+<ul>
+<li class="fragment">BERT (Bidirectional Encoder Representations from Transformers)
+<ul>
+<li class="fragment">State of the art of Language Modeling</li>
+<li class="fragment">4 TPU pods (<strong>256 TPU</strong> chips) in 4 days!</li>
+</ul></li>
+<li class="fragment">XLNET (beats BERT in several tasks)
+<ul>
+<li class="fragment">Cost?</li>
+</ul></li>
+</ul>
+</section><section id="section-45" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-06-25-16-54-34-499613.png" data-background-size="contain">
+<h2></h2>
+</section><section id="hpc" class="slide level2">
+<h2>HPC</h2>
+</section><section id="section-46" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-08-19-01-21-435174.png" data-background-size="contain">
+<h2></h2>
+</section><section id="problem-1" class="slide level2">
+<h2>Problem</h2>
+<ul>
+<li class="fragment">long queue to wait</li>
+</ul>
+</section><section id="fortunately" class="slide level2">
+<h2>Fortunately</h2>
+<ul>
+<li class="fragment">We have got free GPUs</li>
+<li class="fragment">Google Colab</li>
+<li class="fragment">Kaggle</li>
+<li class="fragment">Others</li>
+</ul>
+</section><section id="section-47" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-08-20-02-38-343239.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-48" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-08-20-03-26-682780.png" data-background-size="contain">
+<h2></h2>
+</section></section>
+<section><section id="deep-transfer-learning-for-classification" class="title-slide slide level1"><h1>Deep Transfer Learning for Classification</h1></section><section id="transfer" class="slide level2">
+<h2>Transfer</h2>
+<ul>
+<li class="fragment">People who has got plenty of computing power train a model from scrach</li>
+<li class="fragment">release the model to public</li>
+<li class="fragment">Others can borrow the model</li>
+<li class="fragment">chop off several layers (near the output), replace with their own ones</li>
+<li class="fragment">Train the new model on their tasks</li>
+<li class="fragment">with small amount of data</li>
+</ul>
+</section><section id="transfer-learning-in-image-classification" class="slide level2">
+<h2>Transfer Learning in Image Classification</h2>
+</section><section id="section-49" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-11-09-46-35-679024.png" data-background-size="contain">
+<h2></h2>
+</section><section id="pretrained" class="slide level2">
+<h2>Pretrained</h2>
+<ul>
+<li class="fragment">model we borrow</li>
+<li class="fragment">resnet</li>
+<li class="fragment">trained on imagenet</li>
+</ul>
+</section><section id="section-50" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-07-22-15-10-668789.jpg" data-background-size="contain">
+<h2></h2>
+</section><section id="our-task" class="slide level2">
+<h2>Our task</h2>
+<ul>
+<li class="fragment">Walle vs Doraemon</li>
+</ul>
+</section><section id="section-51" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-07-22-15-19-632859.jpg" data-background-size="contain">
+<h2></h2>
+</section><section id="section-52" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-11-09-45-04-475168.png" data-background-size="contain">
+<h2></h2>
+</section><section id="experiment" class="slide level2">
+<h2>Experiment</h2>
+<ul>
+<li class="fragment">training set: 140 images for each class, 280 in total</li>
+<li class="fragment">valid set: 16 images for Doraemon, 17 images for Walle</li>
+<li class="fragment">Env: fast.ai 1.0 + Pytorch 1.0</li>
+</ul>
+</section><section id="code" class="slide level2">
+<h2>Code</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>path <span class="op">=</span> Path(<span class="st">&#39;imgs&#39;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a>data <span class="op">=</span> ImageDataBunch.from_folder(path, test<span class="op">=</span><span class="st">&#39;test&#39;</span>, ds_tfms<span class="op">=</span>get_transforms(), size<span class="op">=</span><span class="dv">224</span>)</span>
+<span id="cb1-3"><a href="#cb1-3"></a>learn <span class="op">=</span> ConvLearner(data, models.resnet34, metrics<span class="op">=</span>accuracy)</span>
+<span id="cb1-4"><a href="#cb1-4"></a>learn.fit_one_cycle(<span class="dv">1</span>)</span></code></pre></div>
+</section><section id="result" class="slide level2">
+<h2>Result</h2>
+</section><section id="section-53" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-07-22-15-23-581890.jpg" data-background-size="contain">
+<h2></h2>
+</section><section id="time" class="slide level2">
+<h2>Time</h2>
+<ul>
+<li class="fragment"><img src="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-07-22-15-27-581824.jpg" style="border-style: none" alt=""></li>
+</ul>
+</section><section id="section-54" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-08-19-05-53-070727.png" data-background-size="contain">
+<h2></h2>
+</section><section id="example-of-text-classification" class="slide level2">
+<h2>Example of Text Classification</h2>
+<ul>
+<li class="fragment">Can we do transfer learning on text classification?</li>
+<li class="fragment">Yes</li>
+</ul>
+</section><section id="language-model" class="slide level2">
+<h2>language model</h2>
+<ul>
+<li class="fragment">ULMfit</li>
+</ul>
+</section><section id="section-55" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-06-05-20-10-36-355758.png" data-background-size="contain">
+<h2></h2>
+</section><section id="pretrained-model-we-borrow" class="slide level2">
+<h2>pretrained model we borrow</h2>
+<ul>
+<li class="fragment">WikiText-103 (WT103)</li>
+</ul>
+</section><section id="experiment-1" class="slide level2">
+<h2>Experiment</h2>
+<ul>
+<li class="fragment">task
+<ul>
+<li class="fragment">sentiment analysis</li>
+</ul></li>
+<li class="fragment">data
+<ul>
+<li class="fragment">Yelp reviews Polarity</li>
+</ul></li>
+</ul>
+</section><section id="section-56" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-04-02-10-14-43-071387.png" data-background-size="contain">
+<h2></h2>
+</section><section id="state-of-the-art" class="slide level2">
+<h2>State of the Art</h2>
+<ul>
+<li class="fragment"><img src="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2018-12-05-19-44-22-000000-6.png" style="border-style: none" alt=""></li>
+<li class="fragment">Source: Shen, D., Wang, G., Wang, W., Min, M. R., Su, Q., Zhang, Y., … &amp; Carin, L. (2018). Baseline needs more love: On simple word-embedding-based models and associated pooling mechanisms. arXiv preprint arXiv:1805.09843.</li>
+</ul>
+</section><section id="result-1" class="slide level2">
+<h2>Result</h2>
+</section><section id="section-57" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2018-12-05-19-44-22-000000-8.jpeg" data-background-size="contain">
+<h2></h2>
+</section><section id="section-58" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-08-20-08-00-407637.png" data-background-size="contain">
+<h2></h2>
+</section><section id="beyond-accuracy" class="slide level2">
+<h2>Beyond accuracy</h2>
+<ul>
+<li class="fragment">Lower data size</li>
+</ul>
+</section><section id="experiment-2" class="slide level2">
+<h2>Experiment</h2>
+<ul>
+<li class="fragment">CNN single vs ULMfit</li>
+</ul>
+</section><section id="f1-score" class="slide level2">
+<h2>f1 score</h2>
+</section><section id="section-59" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-06-05-16-16-46-140960.png" data-background-size="contain">
+<h2></h2>
+</section><section id="transformers" class="slide level2">
+<h2>Transformers</h2>
+</section><section id="section-60" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-08-19-09-03-448259.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-61" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2018-12-06-20-40-11-000000.png" data-background-size="contain">
+<h2></h2>
+</section><section id="problem-of-rnn" class="slide level2">
+<h2>Problem of RNN</h2>
+<ul>
+<li class="fragment">Can not remember too much</li>
+</ul>
+</section><section id="section-62" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-08-18-55-14-336807.png" data-background-size="contain">
+<h2></h2>
+</section><section id="attention" class="slide level2">
+<h2>Attention</h2>
+</section><section id="section-63" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-01-30-16-05-52-253709.gif" data-background-size="contain">
+<h2></h2>
+</section><section id="self-attention" class="slide level2">
+<h2>Self Attention</h2>
+</section><section id="section-64" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-08-19-11-25-585112.png" data-background-size="contain">
+<h2></h2>
+</section><section id="basic-structure" class="slide level2">
+<h2>Basic structure</h2>
+</section><section id="section-65" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-07-19-32-14-111791.png" data-background-size="contain">
+<h2></h2>
+</section><section id="advantage" class="slide level2">
+<h2>Advantage</h2>
+<ul>
+<li class="fragment">like CNN</li>
+<li class="fragment">forget about “distance”</li>
+</ul>
+</section><section id="section-66" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-08-19-14-12-950890.png" data-background-size="contain">
+<h2></h2>
+</section><section id="deep-model-based-on-transformers" class="slide level2">
+<h2>Deep Model based on Transformers</h2>
+</section><section id="section-67" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-08-19-14-44-327111.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-68" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-08-19-15-26-229502.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-69" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-08-19-16-07-531049.png" data-background-size="contain">
+<h2></h2>
+</section><section id="transfer-learning-based-on-transformers" class="slide level2">
+<h2>Transfer Learning based on Transformers</h2>
+</section><section id="section-70" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-06-05-21-11-21-786927.png" data-background-size="contain">
+<h2></h2>
+</section><section id="new-comers" class="slide level2">
+<h2>New comers</h2>
+<ul>
+<li class="fragment">XLnet</li>
+<li class="fragment">Roberta</li>
+</ul>
+</section><section id="trend-i" class="slide level2">
+<h2>Trend I</h2>
+<ul>
+<li class="fragment">size of models increase</li>
+</ul>
+</section><section id="section-71" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-07-19-30-17-188077.png" data-background-size="contain">
+<h2></h2>
+</section><section id="trend-ii" class="slide level2">
+<h2>Trend II</h2>
+<ul>
+<li class="fragment">Downsizing</li>
+</ul>
+</section><section id="section-72" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-07-19-30-45-957362.png" data-background-size="contain">
+<h2></h2>
+</section><section id="trend-iii" class="slide level2">
+<h2>Trend III</h2>
+<ul>
+<li class="fragment">Low barrier</li>
+</ul>
+</section><section id="section-73" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-11-09-26-02-743736.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-74" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-11-09-33-15-477913.png" data-background-size="contain">
+<h2></h2>
+</section><section id="resources" class="slide level2">
+<h2>Resources</h2>
+</section><section id="section-75" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-08-19-56-29-351630.png" data-background-size="contain">
+<h2></h2>
+</section><section id="section-76" class="slide level2" data-background-image="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-10-08-20-00-04-147842.png" data-background-size="contain">
+<h2></h2>
+</section><section id="source-of-images" class="slide level2">
+<h2>Source of images</h2>
+<ul>
+<li class="fragment"><a href="https://www.google.com/url?sa=i&amp;source=images&amp;cd=&amp;ved=2ahUKEwjmtPPr2dPiAhWBiOAKHWJxDGIQjRx6BAgBEAU&amp;url=https%3A%2F%2Ftowardsdatascience.com%2Funderstanding-how-convolutional-neural-network-cnn-perform-text-classification-with-word-d2ee64b9dd0b&amp;psig=AOvVaw0DmiXzrPeY2m_89dj1R5Ft&amp;ust=1559870833359705">Multi-kernel CNN</a></li>
+<li class="fragment"><a href="https://arxiv.org/abs/1801.06146">ULMfit illustration</a></li>
+<li class="fragment"><a href="http://sebastianzimmeck.de/liuEtAlClassification2018.pdf">Current State-of-the-art Result</a></li>
+</ul>
+</section><section id="references" class="slide level2">
+<h2>References</h2>
+<ul>
+<li class="fragment">Devlin, Jacob, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. 2018. “BERT: Pre-Training of Deep Bidirectional Transformers for Language Understanding,” October. http://arxiv.org/abs/1810.04805.</li>
+<li class="fragment">Harkous, Hamza, Kassem Fawaz, Rémi Lebret, Florian Schaub, Kang G. Shin, and Karl Aberer. 2018. “Polisis: Automated Analysis and Presentation of Privacy Policies Using Deep Learning,” February. http://arxiv.org/abs/1802.02561.</li>
+<li class="fragment">Harkous, Hamza, Kassem Fawaz, Kang G. Shin, and Karl Aberer. 2016. “PriBots: Conversational Privacy with Chatbots.” In WSF@ SOUPS.</li>
+</ul>
+</section><section id="keep-in-touch" class="slide level2">
+<h2>Keep in touch</h2>
+<ul>
+<li class="fragment">email: nkwshuyi@gmail.com</li>
+<li class="fragment">wechat: nkwshuyi</li>
+</ul>
+</section><section id="official-account" class="slide level2">
+<h2>Official Account</h2>
+<ul>
+<li class="fragment"><img src="https://gitlab.com/wshuyi/gitlab-pub-img/raw/master/assets/2019-06-05-22-28-46-142557.png" style="border-style: none" alt=""></li>
+</ul>
+</section></section>
+<section><section id="qa" class="title-slide slide level1"><h1>Q&amp;A</h1></section><section id="questions" class="slide level2">
+<h2>Questions?</h2>
+</section><section id="the-end" class="slide level2">
+<h2>The End</h2>
+<p>Thanks for your time!</p>
+</section></section>
+    </div>
+  </div>
+
+  <script src="reveal.js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+
+navigationMode: 'linear', 
+
+        // Push each slide change to the browser history
+        history: true,
+        // Transition style
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+          { src: 'reveal.js/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+    </body>
+</html>
